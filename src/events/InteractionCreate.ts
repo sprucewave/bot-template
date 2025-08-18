@@ -16,5 +16,10 @@ export default new Event({
         if (interaction.isButton()) {
             client.buttons.get(interaction.customId)?.(interaction);
         }
+
+        if (interaction.isStringSelectMenu()) {
+            client.menus.get(interaction.customId)?.(interaction);
+        }
+
     }
 });

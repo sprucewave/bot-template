@@ -1,4 +1,4 @@
-import { BitFieldResolvable, ButtonInteraction, Client, ClientEvents, Collection, GatewayIntentsString, IntentsBitField, Partials } from "discord.js";
+import { BitFieldResolvable, ButtonInteraction, Client, ClientEvents, Collection, GatewayIntentsString, IntentsBitField, Partials, StringSelectMenuInteraction } from "discord.js";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
@@ -11,6 +11,7 @@ export class ExtendedClient extends Client {
 
     commands: Collection<string, CommandType> = new Collection();
     buttons: Collection<string, (interaction: ButtonInteraction) => any> = new Collection();
+    menus: Collection<string, (interaction: StringSelectMenuInteraction) => any> = new Collection();
 
     constructor() {
         super({
@@ -50,7 +51,8 @@ export class ExtendedClient extends Client {
                 commandList.push(command);
 
                 if (command.buttons) command.buttons.forEach((handler, id) => { this.buttons.set(id, handler); });
-
+                if (command.menus) command.menus.forEach((handler, id) => { this.menus.set(id, handler); });
+                
             });
 
         });

@@ -9,6 +9,7 @@ import {
   ApplicationCommandData,
   Collection,
   ButtonInteraction,
+  StringSelectMenuInteraction,
 } from "discord.js";
 
 type InteractionTypeMap = {
@@ -25,6 +26,7 @@ export interface ICommandProperties<T extends ApplicationCommandType = Applicati
 
 export interface CommandComponents {
   buttons?: Collection<string, (interaction: ButtonInteraction) => any>
+  menus?: Collection<string, (interaction: StringSelectMenuInteraction) => any>
 }
 
 export type CommandType<T extends ApplicationCommandType = ApplicationCommandType> = ApplicationCommandData & CommandComponents & {
