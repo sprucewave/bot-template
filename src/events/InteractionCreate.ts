@@ -13,5 +13,8 @@ export default new Event({
 
         }
 
+        if (interaction.isButton()) {
+            client.buttons.get(interaction.customId)?.(interaction);
+        }
     }
 });
