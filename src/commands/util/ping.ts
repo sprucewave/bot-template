@@ -1,4 +1,4 @@
-import { ApplicationCommandType } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandType, ButtonBuilder, ButtonStyle, Collection } from "discord.js";
 import { Command } from "../../client/Command";
 
 export default new Command({
@@ -6,6 +6,6 @@ export default new Command({
     description: "Replies with Pong!",
     type: ApplicationCommandType.ChatInput,
     run: async ({ interaction }) => {
-        await interaction.reply("Pong!");
+        await interaction.reply({ content: "Pong!" });
     }
 });

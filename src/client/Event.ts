@@ -6,8 +6,8 @@ export type EventType<Key extends keyof ClientEvents> = {
     run: (client: ExtendedClient, ...args: ClientEvents[Key]) => any
 }
 
-export class Event<Key extends keyof ClientEvents>  {
+export class Event<Key extends keyof ClientEvents> {
     constructor(props: EventType<Key>) {
         Object.assign(this, props);
-    } 
+    }
 }

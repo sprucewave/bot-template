@@ -50,7 +50,7 @@ export class ExtendedClient extends Client {
                 commandList.push(command);
 
                 if (command.buttons) command.buttons.forEach((handler, id) => { this.buttons.set(id, handler); });
-                
+
             });
 
         });
