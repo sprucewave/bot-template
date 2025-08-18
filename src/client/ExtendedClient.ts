@@ -1,12 +1,15 @@
-import { BitFieldResolvable, Client, ClientEvents, GatewayIntentsString, IntentsBitField, Partials } from "discord.js";
+import { BitFieldResolvable, Client, ClientEvents, Collection, GatewayIntentsString, IntentsBitField, Partials } from "discord.js";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
 import { EventType } from "./Event";
+import { CommandType } from "./Command";
 
 dotenv.config();
 
 export class ExtendedClient extends Client {
+
+    commands: Collection<string, CommandType> = new Collection();
 
     constructor() {
         super({
@@ -21,10 +24,39 @@ export class ExtendedClient extends Client {
 
     public start() {
         
+        this.registerCommands();
         this.registerEvents();
 
         this.login(process.env.client_token);
         console.log("[!] Bot is online");
+
+    }
+
+    private registerCommands() {
+
+        const commandList: CommandType[] = [];
+
+        fs.readdirSync(path.join(__dirname, "../commands")).forEach(file => {
+            
+            const commandPath = path.join(__dirname, "../commands", file);
+            const commandFilter = (commandName: string) => commandName.endsWith(".ts") || commandName.endsWith(".js");
+
+            fs.readdirSync(commandPath).filter(commandFilter).forEach(async commandFile => {
+                
+                const command: CommandType = require(path.join(commandPath, commandFile))?.default;
+                
+                this.commands.set(command.name, command);
+                commandList.push(command);
+
+            });
+
+        });
+
+        this.on("ready", () => {
+            this.application?.commands.set(commandList)
+            .then(() => console.log("[!] Commands registered successfully"))
+            .catch(console.error);
+        });
 
     }
 
