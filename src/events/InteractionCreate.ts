@@ -21,5 +21,8 @@ export default new Event({
             client.menus.get(interaction.customId)?.(interaction);
         }
 
+        if (interaction.isModalSubmit()) {
+            client.modals.get(interaction.customId)?.(interaction);
+        }
     }
 });
