@@ -3,6 +3,15 @@ import { Event } from "../client/Event";
 export default new Event({
     name: "interactionCreate",
     run: async (client, interaction) => {
-        console.log("Debug: Interaction created");
+        
+        if (interaction.isCommand()) {
+            
+            const command = client.commands.get(interaction.commandName);
+            if (!command) return;
+
+            command.run({ client, interaction });
+
+        }
+
     }
 });
